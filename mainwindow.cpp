@@ -80,6 +80,12 @@ MainWindow::MainWindow() // : QMainWindow(NULL)
   connect(m_Ui.actionObjectNewCylinder, SIGNAL(activated()), this, SLOT(objectsNewCylinder()));
 
   connect(m_Ui.actionViewZoomAll, SIGNAL(activated()), m_WorkSpace, SLOT(zoomAll()));
+  connect(m_Ui.actionViewLeft,    SIGNAL(activated()), m_WorkSpace, SLOT(viewLeft()));
+  connect(m_Ui.actionViewRight,   SIGNAL(activated()), m_WorkSpace, SLOT(viewRight()));
+  connect(m_Ui.actionViewFront,   SIGNAL(activated()), m_WorkSpace, SLOT(viewFront()));
+  connect(m_Ui.actionViewBack,    SIGNAL(activated()), m_WorkSpace, SLOT(viewBack()));
+  connect(m_Ui.actionViewTop,     SIGNAL(activated()), m_WorkSpace, SLOT(viewTop()));
+  connect(m_Ui.actionViewBottom,  SIGNAL(activated()), m_WorkSpace, SLOT(viewBottom()));
 }
 
 void MainWindow::pipelineFloatStateChanged(bool floating)
