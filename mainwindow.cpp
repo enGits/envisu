@@ -31,13 +31,25 @@
 MainWindow::MainWindow() // : QMainWindow(NULL)
 {
   m_Ui.setupUi(this);
-  m_WorkSpace = new WorkSpace(m_Ui.m_TabWidget);
+  m_WorkSpace = new WorkSpace(m_Ui.dockWidgetPipeline);
   m_Ui.m_WorkSpaceLayout->addWidget(m_WorkSpace);
   m_StatusLabel = new QLabel(this);
   m_StatusLabel->setText("");
   statusBar()->addWidget(m_StatusLabel);
   m_WorkSpace->setMainWindow(this);
   setCaption(version() + ": unknown.envisu");
+
+  if (centralWidget()) {
+    delete centralWidget();
+    setCentralWidget(NULL);
+  }
+
+  connect(m_Ui.dockWidget3D,       SIGNAL(topLevelChanged(bool)), this, SLOT(vtkFloatStateChanged(bool)));
+  connect(m_Ui.dockWidgetPipeline, SIGNAL(topLevelChanged(bool)), this, SLOT(pipelineFloatStateChanged(bool)));
+  connect(m_Ui.pushButtonMaximize3D, SIGNAL(clicked()), m_Ui.dockWidget3D, SLOT(showMaximized()));
+  connect(m_Ui.pushButtonMinimize3D, SIGNAL(clicked()), m_Ui.dockWidget3D, SLOT(showNormal()));
+  connect(m_Ui.pushButtonMaximizePipeline, SIGNAL(clicked()), m_Ui.dockWidgetPipeline, SLOT(showMaximized()));
+  connect(m_Ui.pushButtonMinimizePipeline, SIGNAL(clicked()), m_Ui.dockWidgetPipeline, SLOT(showNormal()));
 
   connect(m_Ui.actionDisplayNewAsciiPointsFile, SIGNAL(activated()), this, SLOT(displayNewAsciiPointsFile()));
   connect(m_Ui.actionDisplayNewDisplay, SIGNAL(activated()), this, SLOT(displayNewDisplay()));
@@ -65,6 +77,34 @@ MainWindow::MainWindow() // : QMainWindow(NULL)
   connect(m_Ui.actionGridNewUnstructuredGridReader, SIGNAL(activated()), this, SLOT(gridNewUnstructuredGridReader()));
 
   connect(m_Ui.actionObjectNewCylinder, SIGNAL(activated()), this, SLOT(objectsNewCylinder()));
+}
+
+void MainWindow::pipelineFloatStateChanged(bool floating)
+{
+  if (floating) {
+    m_Ui.dockWidgetPipeline->setWindowFlags(Qt::Window | Qt::WindowMaximizeButtonHint);
+    m_Ui.pushButtonMaximizePipeline->setEnabled(true);
+    m_Ui.pushButtonMinimizePipeline->setEnabled(true);
+    m_Ui.dockWidgetPipeline->show();
+  } else {
+    m_Ui.dockWidgetPipeline->setWindowFlags(Qt::Widget);
+    m_Ui.pushButtonMaximizePipeline->setEnabled(false);
+    m_Ui.pushButtonMinimizePipeline->setEnabled(false);
+  }
+}
+
+void MainWindow::vtkFloatStateChanged(bool floating)
+{
+  if (floating) {
+    m_Ui.dockWidget3D->setWindowFlags(Qt::Window | Qt::WindowMaximizeButtonHint);
+    m_Ui.pushButtonMaximize3D->setEnabled(true);
+    m_Ui.pushButtonMinimize3D->setEnabled(true);
+    m_Ui.dockWidget3D->show();
+  } else {
+    m_Ui.dockWidget3D->setWindowFlags(Qt::Widget);
+    m_Ui.pushButtonMaximize3D->setEnabled(false);
+    m_Ui.pushButtonMinimize3D->setEnabled(false);
+  }
 }
 
 void MainWindow::fileNew()

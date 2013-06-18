@@ -98,6 +98,9 @@ public slots:
 
   void filterCreate();
 
+  void pipelineFloatStateChanged(bool floating);
+  void vtkFloatStateChanged(bool floating);
+
   
 };
 

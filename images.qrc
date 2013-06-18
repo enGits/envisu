@@ -47,5 +47,7 @@
         <file>kde_icons/document-print.png</file>
         <file>kde_icons/document-save-as.png</file>
         <file>kde_icons/document-save.png</file>
+        <file>gnome_icons/window_fullscreen.png</file>
+        <file>gnome_icons/window_nofullscreen.png</file>
     </qresource>
 </RCC>
