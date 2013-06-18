@@ -14,3 +14,5 @@ functionality. Just have a look at it and let us know what you think.
 Of course the code has loads of flaws and things which don't work properly at the moment. We do
 plan, however, to start using it for our own visualisation tasks from now on. So expect it to
 become more usable in the near future.
+
+If you interested in using enVisu and get stuck, or if you have ideas, please drop me a line at ogloth[at]engits.com!
