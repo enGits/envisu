@@ -74,12 +74,14 @@ void UnstructuredGridReader::config()
 void UnstructuredGridReader::save(QTextStream &s)
 {
   GuiWsItem<Ui::UnstructuredGridReaderConfig>::save(s);
+  writeLineEdit(s, m_Dlg.ui.name_edit);
   writeLabel(s,m_Dlg.ui.file_label);
 }
 
 void UnstructuredGridReader::load(QTextStream &s)
 {
   GuiWsItem<Ui::UnstructuredGridReaderConfig>::load(s);
+  readLineEdit(s, m_Dlg.ui.name_edit);
   readLabel(s,m_Dlg.ui.file_label);
   apply();
 }

@@ -63,6 +63,7 @@ void Axisymmetry::config()
 void Axisymmetry::save(QTextStream &s)
 {
   GuiWsItem<Ui::AxisymmetryConfig>::save(s);
+  writeLineEdit(s, m_Dlg.ui.name_edit);
   writeRadioButton(s,m_Dlg.ui.xaxis_rb);
   writeRadioButton(s,m_Dlg.ui.yaxis_rb);
   writeRadioButton(s,m_Dlg.ui.zaxis_rb);
@@ -73,6 +74,7 @@ void Axisymmetry::save(QTextStream &s)
 void Axisymmetry::load(QTextStream &s)
 {
   GuiWsItem<Ui::AxisymmetryConfig>::load(s);
+  readLineEdit(s, m_Dlg.ui.name_edit);
   readRadioButton(s,m_Dlg.ui.xaxis_rb);
   readRadioButton(s,m_Dlg.ui.yaxis_rb);
   readRadioButton(s,m_Dlg.ui.zaxis_rb);

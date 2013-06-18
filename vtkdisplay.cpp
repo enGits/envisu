@@ -143,13 +143,14 @@ void VtkDisplay::apply()
       }
     }
     m_Ws->getRenderer()->AddActor(legend_actor);
-  };
+  }
   m_Ws->render();
 }
 
 void VtkDisplay::load(QTextStream &s)
 {
   GuiWsItem::load(s);
+  readLineEdit(s, m_Dlg.ui.name_edit);
   readRadioButton(s, m_Dlg.ui.flat_rb);
   readRadioButton(s, m_Dlg.ui.gouraud_rb);
   readRadioButton(s, m_Dlg.ui.phong_rb);
@@ -172,6 +173,7 @@ void VtkDisplay::load(QTextStream &s)
 void VtkDisplay::save(QTextStream &s)
 {
   GuiWsItem::save(s);
+  writeLineEdit(s, m_Dlg.ui.name_edit);
   s << m_Dlg.ui.flat_rb->isChecked() << ' ';
   s << m_Dlg.ui.gouraud_rb->isChecked() << ' ';
   s << m_Dlg.ui.phong_rb->isChecked() << ' ';
@@ -196,6 +198,7 @@ void VtkDisplay::update()
   if (data) {
     if (data->GetNumberOfPolys() || data->GetNumberOfStrips()) {
       normals->SetInput(data);
+      normals->Update();
       mapper->SetInput(normals->GetOutput());
     } else {
       mapper->SetInput(data);
@@ -217,6 +220,8 @@ void VtkDisplay::update()
       }
     }
   }
+  vtkActorCollection* actors = m_Ws->getRenderer()->GetActors();
+  cout << actors->GetNumberOfItems() << endl;
 }
 
 

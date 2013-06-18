@@ -73,6 +73,7 @@ void Sphere::autoApply()
 void Sphere::save(QTextStream &s)
 {
   GuiWsItem<Ui::SphereConfig>::save(s);
+  writeLineEdit(s, m_Dlg.ui.name_edit);
   writeLineEdit(s, m_Dlg.ui.x);
   writeSlider(s, m_Dlg.ui.slider);
   writeLineEdit(s, m_Dlg.ui.rmin);
@@ -83,6 +84,7 @@ void Sphere::save(QTextStream &s)
 void Sphere::load(QTextStream &s)
 {
   GuiWsItem<Ui::SphereConfig>::load(s);
+  readLineEdit(s, m_Dlg.ui.name_edit);
   readLineEdit(s, m_Dlg.ui.x);
   readSlider(s, m_Dlg.ui.slider);
   readLineEdit(s, m_Dlg.ui.rmin);

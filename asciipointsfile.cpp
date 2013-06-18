@@ -179,6 +179,7 @@ void AsciiPointsFile::writeFile()
 void AsciiPointsFile::save(QTextStream &s)
 {
   GuiWsItem<Ui::AsciiPointsFileConfig>::save(s);
+  writeLineEdit(s, m_Dlg.ui.name_edit);
   writeLabel(s,m_Dlg.ui.file_label);
   writeCheckBox(s,m_Dlg.ui.start_cb);
   writeCheckBox(s,m_Dlg.ui.end_cb);
@@ -190,6 +191,7 @@ void AsciiPointsFile::save(QTextStream &s)
 void AsciiPointsFile::load(QTextStream &s)
 {
   GuiWsItem<Ui::AsciiPointsFileConfig>::load(s);
+  readLineEdit(s, m_Dlg.ui.name_edit);
   readLabel(s,m_Dlg.ui.file_label);
   readCheckBox(s,m_Dlg.ui.start_cb);
   readCheckBox(s,m_Dlg.ui.end_cb);

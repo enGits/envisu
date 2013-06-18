@@ -23,7 +23,7 @@
 
 #include "acummulate.h"
 
-Acummulate::Acummulate(WorkSpace *ws) : WsItem(ws)
+Acummulate::Acummulate(WorkSpace *ws) : GuiWsItem<Ui::WsItemConfig>(ws)
 {
   loadIcon("cummulate.png");
   m_Ws->addItem(this);
@@ -63,11 +63,13 @@ void Acummulate::setDummyPolyData(int i)
 void Acummulate::load(QTextStream &s)
 {
   WsItem::load(s);
+  readLineEdit(s, m_Dlg.ui.name_edit);
 }
 
 void Acummulate::save(QTextStream &s)
 {
   WsItem::save(s);
+  writeLineEdit(s, m_Dlg.ui.name_edit);
 }
 
 void Acummulate::disconnectInput(int i)

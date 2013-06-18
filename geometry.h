@@ -26,10 +26,12 @@
 
 class Geometry;
 
-#include "wsitem.h"
+#include "guiwsitem.h"
+#include "ui_wsitemconfig.h"
+
 #include <vtkGeometryFilter.h>
 
-class Geometry : public WsItem
+class Geometry : public GuiWsItem<Ui::WsItemConfig>
 {
     
 private:

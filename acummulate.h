@@ -25,11 +25,12 @@
 
 class Acummulate;
 
-#include "wsitem.h"
+#include "guiwsitem.h"
+#include "ui_wsitemconfig.h"
 
 #include <vtkAppendPolyData.h>
 
-class Acummulate : public WsItem
+class Acummulate : public GuiWsItem<Ui::WsItemConfig>
 {
     
 private:

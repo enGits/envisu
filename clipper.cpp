@@ -68,12 +68,14 @@ void Clipper::config()
 void Clipper::save(QTextStream &s)
 {
   GuiWsItem::save(s);
+  writeLineEdit(s, m_Dlg.ui.name_edit);
   writeRadioButton(s,m_Dlg.ui.in_rb);
 }
 
 void Clipper::load(QTextStream &s)
 {
   GuiWsItem::load(s);
+  readLineEdit(s, m_Dlg.ui.name_edit);
   readRadioButton(s,m_Dlg.ui.in_rb);
   apply();
 }

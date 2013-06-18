@@ -71,12 +71,12 @@ MainWindow::MainWindow() // : QMainWindow(NULL)
   connect(m_Ui.actionFilterNewGeometry,    SIGNAL(activated()), this, SLOT(filterNewGeometry()));
   connect(m_Ui.actionFilterNewTubes,       SIGNAL(activated()), this, SLOT(filterNewTubes()));
 
-
-
   connect(m_Ui.actionGridNewPolyDataReader,         SIGNAL(activated()), this, SLOT(gridNewPolyDataReader()));
   connect(m_Ui.actionGridNewUnstructuredGridReader, SIGNAL(activated()), this, SLOT(gridNewUnstructuredGridReader()));
 
   connect(m_Ui.actionObjectNewCylinder, SIGNAL(activated()), this, SLOT(objectsNewCylinder()));
+
+  connect(m_Ui.actionViewZoomAll, SIGNAL(activated()), m_WorkSpace, SLOT(zoomAll()));
 }
 
 void MainWindow::pipelineFloatStateChanged(bool floating)

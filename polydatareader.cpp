@@ -59,12 +59,14 @@ void PolyDataReader::config()
 void PolyDataReader::save(QTextStream &s)
 {
   GuiWsItem::save(s);
+  writeLineEdit(s, m_Dlg.ui.name_edit);
   writeLabel(s,m_Dlg.ui.file_label);
 }
 
 void PolyDataReader::load(QTextStream &s)
 {
   GuiWsItem::load(s);
+  readLineEdit(s, m_Dlg.ui.name_edit);
   readLabel(s,m_Dlg.ui.file_label);
   apply();
 }

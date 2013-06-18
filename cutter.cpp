@@ -56,11 +56,13 @@ void Cutter::config()
 void Cutter::save(QTextStream &s)
 {
   WsItem::save(s);
+  writeLineEdit(s, m_Dlg.ui.name_edit);
 }
 
 void Cutter::load(QTextStream &s)
 {
   WsItem::load(s);
+  readLineEdit(s, m_Dlg.ui.name_edit);
 }
 
 vtkPolyData* Cutter::getPolyData()

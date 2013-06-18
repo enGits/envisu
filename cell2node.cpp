@@ -23,7 +23,7 @@
 
 #include "cell2node.h"
 
-Cell2Node::Cell2Node(WorkSpace *ws) :	WsItem(ws)
+Cell2Node::Cell2Node(WorkSpace *ws) :	GuiWsItem<Ui::WsItemConfig>(ws)
 {
   loadIcon("cell2node.png");
   m_Ws->addItem(this);
@@ -43,9 +43,11 @@ Cell2Node::~Cell2Node()
 void Cell2Node::load(QTextStream &s)
 {
   WsItem::load(s);
+  readLineEdit(s, m_Dlg.ui.name_edit);
 }
 
 void Cell2Node::save(QTextStream &s)
 {
   WsItem::save(s);
+  writeLineEdit(s, m_Dlg.ui.name_edit);
 }

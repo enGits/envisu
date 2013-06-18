@@ -23,7 +23,7 @@
 
 #include "geometry.h"
 
-Geometry::Geometry(WorkSpace *ws) :	WsItem(ws)
+Geometry::Geometry(WorkSpace *ws) :	GuiWsItem<Ui::WsItemConfig>(ws)
 {
   loadIcon("geometry.png");
   m_Ws->addItem(this);
@@ -40,10 +40,12 @@ Geometry::~Geometry()
 void Geometry::load(QTextStream &s)
 {
   WsItem::load(s);
+  readLineEdit(s, m_Dlg.ui.name_edit);
 }
 
 void Geometry::save(QTextStream &s)
 {
   WsItem::save(s);
+  writeLineEdit(s, m_Dlg.ui.name_edit);
 }
 

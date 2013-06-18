@@ -422,7 +422,9 @@ void WorkSpace::render()
 
 void WorkSpace::zoomAll()
 {
+  //m_Renderer->ResetCameraClippingRange();
   m_Renderer->ResetCamera();
+  //m_Renderer->Print(cout);
   render();
 }
 

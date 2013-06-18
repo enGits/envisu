@@ -1,7 +1,17 @@
 2
+Cylinder
+40 240
+N/A
+12
+1
+0,~0,~0
+20,~0,~0
+checked
+
 VtkDisplay
-camera_(created_on_Tue_Jun_18_10:09:58_2013) 350 140
-0 1 0 0 0 1 1 0 1 1
+250 240
+camera~(created~on~Tue~Jun~18~16:42:19~2013)
+0 1 0 0 1 0 1 0 1 1
 1
 1
 1
@@ -16,8 +26,5 @@ top
 99
 10
 
-Cylinder
-cylinder_(created_on_Tue_Jun_18_10:10:10_2013) 120 140
-
 1
-1 0 0
+0 1 0

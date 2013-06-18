@@ -48,6 +48,7 @@ Cylinder::~Cylinder()
 
 void Cylinder::apply()
 {
+  changeName(m_Dlg.ui.name_edit->text());
   cyl->SetResolution(m_Dlg.ui.res->text().toInt());
   cyl->SetRadius(m_Dlg.ui.radius->text().toDouble());
   A->Identity();
@@ -69,19 +70,32 @@ void Cylinder::apply()
 
 void Cylinder::config()
 {
-  if (m_Dlg.exec()) apply();
+  if (m_Dlg.exec()) {
+    apply();
+  }
 }
 
 void Cylinder::load(QTextStream &s)
 {
   WsItem::load(s);
-  string w;
+  readLineEdit(s, m_Dlg.ui.name_edit);
+  readLineEdit(s, m_Dlg.ui.res);
+  readLineEdit(s, m_Dlg.ui.radius);
+  readLineEdit(s, m_Dlg.ui.v1);
+  readLineEdit(s, m_Dlg.ui.v2);
+  readCheckBox(s, m_Dlg.ui.capped_cb);
   apply();
 }
 
 void Cylinder::save(QTextStream &s)
 {
   GuiWsItem::save(s);
+  writeLineEdit(s, m_Dlg.ui.name_edit);
+  writeLineEdit(s, m_Dlg.ui.res);
+  writeLineEdit(s, m_Dlg.ui.radius);
+  writeLineEdit(s, m_Dlg.ui.v1);
+  writeLineEdit(s, m_Dlg.ui.v2);
+  writeCheckBox(s, m_Dlg.ui.capped_cb);
   s << '\n';
 }
 

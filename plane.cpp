@@ -72,6 +72,7 @@ void Plane::autoApply()
 void Plane::save(QTextStream &s)
 {
   GuiWsItem::save(s);
+  writeLineEdit(s, m_Dlg.ui.name_edit);
   writeLineEdit(s, m_Dlg.ui.x1);
   writeLineEdit(s, m_Dlg.ui.x2);
   writeSlider(s,m_Dlg.ui.n_slider);
@@ -80,6 +81,7 @@ void Plane::save(QTextStream &s)
 void Plane::load(QTextStream &s)
 {
   GuiWsItem::load(s);
+  readLineEdit(s, m_Dlg.ui.name_edit);
   readLineEdit(s, m_Dlg.ui.x1);
   readLineEdit(s, m_Dlg.ui.x2);
   readSlider(s,m_Dlg.ui.n_slider);

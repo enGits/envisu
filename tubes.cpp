@@ -44,6 +44,7 @@ Tubes::~Tubes()
 void Tubes::load(QTextStream &s)
 {
   GuiWsItem::load(s);
+  readLineEdit(s, m_Dlg.ui.name_edit);
   readLineEdit(s,m_Dlg.ui.res_edit);
   readLineEdit(s,m_Dlg.ui.radius_edit);
   apply();
@@ -52,6 +53,7 @@ void Tubes::load(QTextStream &s)
 void Tubes::save(QTextStream &s)
 {
   GuiWsItem::save(s);
+  writeLineEdit(s, m_Dlg.ui.name_edit);
   writeLineEdit(s,m_Dlg.ui.res_edit);
   writeLineEdit(s,m_Dlg.ui.radius_edit);
 }

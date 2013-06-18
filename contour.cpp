@@ -63,6 +63,7 @@ void Contour::config()
 void Contour::save(QTextStream &s)
 {
   GuiWsItem<Ui::ContourConfig>::save(s);
+  writeLineEdit(s, m_Dlg.ui.name_edit);
   writeLineEdit(s,m_Dlg.ui.num_edit);
   writeLineEdit(s,m_Dlg.ui.min_edit);
   writeLineEdit(s,m_Dlg.ui.max_edit);
@@ -71,6 +72,7 @@ void Contour::save(QTextStream &s)
 void Contour::load(QTextStream &s)
 {
   GuiWsItem<Ui::ContourConfig>::load(s);
+  readLineEdit(s, m_Dlg.ui.name_edit);
   readLineEdit(s,m_Dlg.ui.num_edit);
   readLineEdit(s,m_Dlg.ui.min_edit);
   readLineEdit(s,m_Dlg.ui.max_edit);

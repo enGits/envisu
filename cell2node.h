@@ -26,11 +26,12 @@
 
 class Cell2Node;
 
-#include "wsitem.h"
+#include "guiwsitem.h"
+#include "ui_wsitemconfig.h"
 
 #include <vtkCellDataToPointData.h>
 
-class Cell2Node : public WsItem
+class Cell2Node : public GuiWsItem<Ui::WsItemConfig>
 {
     
 private:

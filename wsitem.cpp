@@ -112,16 +112,13 @@ void WsItem::addInput(QString input_name, QString type)
 
 void WsItem::save(QTextStream &s)
 {
-  QString save_name = name().replace(QChar(' '),QString("_"));
-  s << save_name.ascii() << ' ' << getIcon()->x() << ' ' << getIcon()->y() << '\n';
+  s << getIcon()->x() << ' ' << getIcon()->y() << '\n';
 }
 
 void WsItem::load(QTextStream &s)
 {
   double xr, yr;
-  QString namer;
-  s >> namer >> xr >> yr;
-  m_ItemName = namer.replace(QChar('_'),QString(" "));
+  s >> xr >> yr;
   getIcon()->setX(xr);
   getIcon()->setY(yr);
 }
@@ -150,7 +147,11 @@ void WsItem::readLineEdit(QTextStream &s, QLineEdit *edit)
 
 void WsItem::writeLineEdit(QTextStream &s, QLineEdit *edit)
 {
-  s << edit->text().replace(' ', '~') << "\n";
+  if (!edit->text().isEmpty()) {
+    s << edit->text().replace(' ', '~') << "\n";
+  } else {
+    s << "N/A\n";
+  }
 }
 
 void WsItem::readLabel(QTextStream &s, QLabel *label)
@@ -263,6 +264,7 @@ vec3_t WsItem::getVector(QLineEdit *edit)
   for (int i = 0; i < min(3, words.size()); ++i) {
     x[i] = words[i].toDouble();
   }
+  return x;
 }
 
 void WsItem::setVector(vec3_t x, QLineEdit *edit)
@@ -274,5 +276,6 @@ void WsItem::setVector(vec3_t x, QLineEdit *edit)
   num.setNum(x[1]);
   txt += num + ", ";
   num.setNum(x[2]);
+  txt += num;
   edit->setText(txt);
 }
