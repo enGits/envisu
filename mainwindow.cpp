@@ -74,6 +74,9 @@ MainWindow::MainWindow() // : QMainWindow(NULL)
   connect(m_Ui.actionGridNewPolyDataReader,         SIGNAL(activated()), this, SLOT(gridNewPolyDataReader()));
   connect(m_Ui.actionGridNewUnstructuredGridReader, SIGNAL(activated()), this, SLOT(gridNewUnstructuredGridReader()));
 
+  connect(m_Ui.actionFunctionNewPlane, SIGNAL(activated()), this, SLOT(functionNewPlane()));
+  connect(m_Ui.actionFunctionNewSphere, SIGNAL(activated()), this, SLOT(functionNewSphere()));
+
   connect(m_Ui.actionObjectNewCylinder, SIGNAL(activated()), this, SLOT(objectsNewCylinder()));
 
   connect(m_Ui.actionViewZoomAll, SIGNAL(activated()), m_WorkSpace, SLOT(zoomAll()));
