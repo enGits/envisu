@@ -1,0 +1,594 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<ui version="4.0">
+ <class>MainWindow</class>
+ <widget class="QMainWindow" name="MainWindow">
+  <property name="geometry">
+   <rect>
+    <x>0</x>
+    <y>0</y>
+    <width>672</width>
+    <height>640</height>
+   </rect>
+  </property>
+  <property name="windowTitle">
+   <string>enVisu Data Visualisation</string>
+  </property>
+  <property name="windowIcon">
+   <iconset resource="images.qrc">
+    <normaloff>:/icons/icons/G.png</normaloff>:/icons/icons/G.png</iconset>
+  </property>
+  <widget class="QWidget" name="widget">
+   <layout class="QVBoxLayout" name="verticalLayout_2">
+    <item>
+     <widget class="QTabWidget" name="m_TabWidget">
+      <property name="currentIndex">
+       <number>0</number>
+      </property>
+      <widget class="QWidget" name="tab">
+       <attribute name="title">
+        <string>pipeline</string>
+       </attribute>
+       <layout class="QVBoxLayout" name="verticalLayout">
+        <item>
+         <layout class="QVBoxLayout" name="m_WorkSpaceLayout"/>
+        </item>
+       </layout>
+      </widget>
+      <widget class="QWidget" name="tab_2">
+       <attribute name="title">
+        <string>3D view</string>
+       </attribute>
+       <layout class="QVBoxLayout" name="verticalLayout_3">
+        <item>
+         <widget class="QVTKWidget" name="m_QVtkWidget"/>
+        </item>
+       </layout>
+      </widget>
+     </widget>
+    </item>
+   </layout>
+  </widget>
+  <widget class="QMenuBar" name="MenuBar">
+   <property name="geometry">
+    <rect>
+     <x>0</x>
+     <y>0</y>
+     <width>672</width>
+     <height>19</height>
+    </rect>
+   </property>
+   <widget class="QMenu" name="fileMenu">
+    <property name="title">
+     <string>&amp;File</string>
+    </property>
+    <addaction name="actionFileNew"/>
+    <addaction name="actionFileOpen"/>
+    <addaction name="actionFileSave"/>
+    <addaction name="actionFileSaveAs"/>
+    <addaction name="separator"/>
+    <addaction name="actionFilePrint"/>
+    <addaction name="separator"/>
+    <addaction name="actionFilterCreate"/>
+    <addaction name="separator"/>
+    <addaction name="actionFileExit"/>
+   </widget>
+   <widget class="QMenu" name="helpMenu">
+    <property name="title">
+     <string>&amp;Help</string>
+    </property>
+    <addaction name="separator"/>
+   </widget>
+   <widget class="QMenu" name="menuView">
+    <property name="title">
+     <string>View</string>
+    </property>
+    <addaction name="actionViewRender"/>
+    <addaction name="actionViewZoomAll"/>
+    <addaction name="actionViewLeft"/>
+    <addaction name="actionViewRight"/>
+    <addaction name="actionViewFront"/>
+    <addaction name="actionViewBack"/>
+    <addaction name="actionViewTop"/>
+    <addaction name="actionViewBottom"/>
+   </widget>
+   <widget class="QMenu" name="menuFilters_2">
+    <property name="title">
+     <string>Filters</string>
+    </property>
+    <addaction name="actionFilterNewCutter"/>
+    <addaction name="actionFilterNewCell2Node"/>
+    <addaction name="actionFilterNewCummulate"/>
+    <addaction name="actionFilterNewGeometry"/>
+    <addaction name="actionFilterNewTubes"/>
+    <addaction name="actionFilterNewClipper"/>
+    <addaction name="actionFilterNewContour"/>
+    <addaction name="actionFilterNewAxisymmetry"/>
+   </widget>
+   <widget class="QMenu" name="menuFunctions_2">
+    <property name="title">
+     <string>Functions</string>
+    </property>
+    <addaction name="actionFunctionNewPlane"/>
+    <addaction name="actionFunctionNewSphere"/>
+   </widget>
+   <widget class="QMenu" name="menuObjects_2">
+    <property name="title">
+     <string>Sources</string>
+    </property>
+    <addaction name="actionGridNewPolyDataReader"/>
+    <addaction name="actionGridNewUnstructuredGridReader"/>
+    <addaction name="actionObjectNewCylinder"/>
+   </widget>
+   <widget class="QMenu" name="menuConsumers">
+    <property name="title">
+     <string>Consumers</string>
+    </property>
+    <addaction name="actionDisplayNewDisplay"/>
+    <addaction name="actionDisplayNewAsciiPointsFile"/>
+   </widget>
+   <addaction name="fileMenu"/>
+   <addaction name="menuView"/>
+   <addaction name="separator"/>
+   <addaction name="menuFilters_2"/>
+   <addaction name="menuFunctions_2"/>
+   <addaction name="menuObjects_2"/>
+   <addaction name="menuConsumers"/>
+   <addaction name="helpMenu"/>
+  </widget>
+  <widget class="QToolBar" name="toolBar">
+   <property name="windowTitle">
+    <string>toolBar</string>
+   </property>
+   <attribute name="toolBarArea">
+    <enum>TopToolBarArea</enum>
+   </attribute>
+   <attribute name="toolBarBreak">
+    <bool>false</bool>
+   </attribute>
+   <addaction name="actionFileOpen"/>
+   <addaction name="actionFileSave"/>
+   <addaction name="actionFileSaveAs"/>
+   <addaction name="separator"/>
+   <addaction name="actionViewRender"/>
+   <addaction name="actionViewZoomAll"/>
+   <addaction name="actionViewLeft"/>
+   <addaction name="actionViewRight"/>
+   <addaction name="actionViewFront"/>
+   <addaction name="actionViewBack"/>
+   <addaction name="actionViewTop"/>
+   <addaction name="actionViewBottom"/>
+   <addaction name="separator"/>
+  </widget>
+  <action name="actionFileNew">
+   <property name="icon">
+    <iconset resource="images.qrc">
+     <normaloff>:/icons/kde_icons/document-new.png</normaloff>:/icons/kde_icons/document-new.png</iconset>
+   </property>
+   <property name="text">
+    <string>&amp;New</string>
+   </property>
+   <property name="iconText">
+    <string>New</string>
+   </property>
+   <property name="shortcut">
+    <string>Ctrl+N</string>
+   </property>
+   <property name="name" stdset="0">
+    <cstring>fileNewAction</cstring>
+   </property>
+  </action>
+  <action name="actionFileOpen">
+   <property name="icon">
+    <iconset resource="images.qrc">
+     <normaloff>:/icons/kde_icons/document-open.png</normaloff>:/icons/kde_icons/document-open.png</iconset>
+   </property>
+   <property name="text">
+    <string>&amp;Open...</string>
+   </property>
+   <property name="iconText">
+    <string>Open</string>
+   </property>
+   <property name="shortcut">
+    <string>Ctrl+O</string>
+   </property>
+   <property name="name" stdset="0">
+    <cstring>fileOpenAction</cstring>
+   </property>
+  </action>
+  <action name="actionFileSave">
+   <property name="icon">
+    <iconset resource="images.qrc">
+     <normaloff>:/icons/kde_icons/document-save.png</normaloff>:/icons/kde_icons/document-save.png</iconset>
+   </property>
+   <property name="text">
+    <string>&amp;Save</string>
+   </property>
+   <property name="iconText">
+    <string>Save</string>
+   </property>
+   <property name="shortcut">
+    <string>Ctrl+S</string>
+   </property>
+   <property name="name" stdset="0">
+    <cstring>fileSaveAction</cstring>
+   </property>
+  </action>
+  <action name="actionFileSaveAs">
+   <property name="icon">
+    <iconset resource="images.qrc">
+     <normaloff>:/icons/kde_icons/document-save-as.png</normaloff>:/icons/kde_icons/document-save-as.png</iconset>
+   </property>
+   <property name="text">
+    <string>Save &amp;As...</string>
+   </property>
+   <property name="iconText">
+    <string>Save As</string>
+   </property>
+   <property name="shortcut">
+    <string/>
+   </property>
+   <property name="name" stdset="0">
+    <cstring>fileSaveAsAction</cstring>
+   </property>
+  </action>
+  <action name="actionFilePrint">
+   <property name="icon">
+    <iconset resource="images.qrc">
+     <normaloff>:/icons/kde_icons/document-print.png</normaloff>:/icons/kde_icons/document-print.png</iconset>
+   </property>
+   <property name="text">
+    <string>&amp;Print...</string>
+   </property>
+   <property name="iconText">
+    <string>Print</string>
+   </property>
+   <property name="shortcut">
+    <string>Ctrl+P</string>
+   </property>
+   <property name="name" stdset="0">
+    <cstring>filePrintAction</cstring>
+   </property>
+  </action>
+  <action name="actionFileExit">
+   <property name="icon">
+    <iconset resource="images.qrc">
+     <normaloff>:/icons/kde_icons/exit.png</normaloff>:/icons/kde_icons/exit.png</iconset>
+   </property>
+   <property name="text">
+    <string>E&amp;xit</string>
+   </property>
+   <property name="iconText">
+    <string>Exit</string>
+   </property>
+   <property name="shortcut">
+    <string/>
+   </property>
+   <property name="name" stdset="0">
+    <cstring>fileExitAction</cstring>
+   </property>
+  </action>
+  <action name="actionViewRender">
+   <property name="icon">
+    <iconset resource="images.qrc">
+     <normaloff>:/icons/kde_icons/reload.png</normaloff>:/icons/kde_icons/reload.png</iconset>
+   </property>
+   <property name="iconText">
+    <string>refresh 3D display</string>
+   </property>
+   <property name="name" stdset="0">
+    <cstring>renderAction</cstring>
+   </property>
+  </action>
+  <action name="actionReaders">
+   <property name="text">
+    <string>readers</string>
+   </property>
+  </action>
+  <action name="actionViewZoomAll">
+   <property name="icon">
+    <iconset resource="images.qrc">
+     <normaloff>:/icons/kde_icons/viewmagfit.png</normaloff>:/icons/kde_icons/viewmagfit.png</iconset>
+   </property>
+   <property name="text">
+    <string>zoom all</string>
+   </property>
+  </action>
+  <action name="actionViewLeft">
+   <property name="icon">
+    <iconset resource="images.qrc">
+     <normaloff>:/icons/icons/viewxminus.png</normaloff>:/icons/icons/viewxminus.png</iconset>
+   </property>
+   <property name="text">
+    <string>view from the left</string>
+   </property>
+   <property name="toolTip">
+    <string>view from the left</string>
+   </property>
+  </action>
+  <action name="actionViewRight">
+   <property name="icon">
+    <iconset resource="images.qrc">
+     <normaloff>:/icons/icons/viewxplus.png</normaloff>:/icons/icons/viewxplus.png</iconset>
+   </property>
+   <property name="text">
+    <string>view from the right</string>
+   </property>
+   <property name="toolTip">
+    <string>view from the right</string>
+   </property>
+  </action>
+  <action name="actionViewFront">
+   <property name="icon">
+    <iconset resource="images.qrc">
+     <normaloff>:/icons/icons/viewzplus.png</normaloff>:/icons/icons/viewzplus.png</iconset>
+   </property>
+   <property name="text">
+    <string>view from the front</string>
+   </property>
+  </action>
+  <action name="actionViewBack">
+   <property name="icon">
+    <iconset resource="images.qrc">
+     <normaloff>:/icons/icons/viewzminus.png</normaloff>:/icons/icons/viewzminus.png</iconset>
+   </property>
+   <property name="text">
+    <string>view from the back</string>
+   </property>
+  </action>
+  <action name="actionViewTop">
+   <property name="icon">
+    <iconset resource="images.qrc">
+     <normaloff>:/icons/icons/viewyplus.png</normaloff>:/icons/icons/viewyplus.png</iconset>
+   </property>
+   <property name="text">
+    <string>view from the top</string>
+   </property>
+  </action>
+  <action name="actionViewBottom">
+   <property name="icon">
+    <iconset resource="images.qrc">
+     <normaloff>:/icons/icons/viewyminus.png</normaloff>:/icons/icons/viewyminus.png</iconset>
+   </property>
+   <property name="text">
+    <string>view from the bottom</string>
+   </property>
+  </action>
+  <actiongroup name="grid">
+   <action name="actionGridNewPolyDataReader">
+    <property name="checkable">
+     <bool>false</bool>
+    </property>
+    <property name="icon">
+     <iconset resource="images.qrc">
+      <normaloff>:/icons/icons/polydatareader.png</normaloff>:/icons/icons/polydatareader.png</iconset>
+    </property>
+    <property name="iconText">
+     <string>VTK poly-data reader</string>
+    </property>
+    <property name="name" stdset="0">
+     <cstring>gridNewPolyDataReaderAction</cstring>
+    </property>
+   </action>
+   <action name="actionGridNewUnstructuredGridReader">
+    <property name="checkable">
+     <bool>false</bool>
+    </property>
+    <property name="icon">
+     <iconset resource="images.qrc">
+      <normaloff>:/icons/icons/unstructuredgridreader.png</normaloff>:/icons/icons/unstructuredgridreader.png</iconset>
+    </property>
+    <property name="iconText">
+     <string>VTK unstr. grid reader</string>
+    </property>
+    <property name="name" stdset="0">
+     <cstring>gridNewUnstructuredGridReaderAction</cstring>
+    </property>
+   </action>
+   <property name="name" stdset="0">
+    <cstring>grid</cstring>
+   </property>
+  </actiongroup>
+  <actiongroup name="display">
+   <action name="actionDisplayNewDisplay">
+    <property name="icon">
+     <iconset resource="images.qrc">
+      <normaloff>:/icons/icons/camera.png</normaloff>:/icons/icons/camera.png</iconset>
+    </property>
+    <property name="iconText">
+     <string>camera</string>
+    </property>
+    <property name="name" stdset="0">
+     <cstring>displayNewDisplayAction</cstring>
+    </property>
+   </action>
+   <action name="actionDisplayNewAsciiPointsFile">
+    <property name="icon">
+     <iconset resource="images.qrc">
+      <normaloff>:/icons/icons/asciipointsfile.png</normaloff>:/icons/icons/asciipointsfile.png</iconset>
+    </property>
+    <property name="iconText">
+     <string>new points file (ascii)</string>
+    </property>
+    <property name="name" stdset="0">
+     <cstring>displayNewAsciiPointsFileAction</cstring>
+    </property>
+   </action>
+   <property name="name" stdset="0">
+    <cstring>display</cstring>
+   </property>
+  </actiongroup>
+  <actiongroup name="objects">
+   <action name="actionObjectNewCylinder">
+    <property name="icon">
+     <iconset resource="images.qrc">
+      <normaloff>:/icons/icons/cylinder.png</normaloff>:/icons/icons/cylinder.png</iconset>
+    </property>
+    <property name="iconText">
+     <string>cylinder</string>
+    </property>
+    <property name="name" stdset="0">
+     <cstring>objectsNewCylinderAction</cstring>
+    </property>
+   </action>
+   <property name="name" stdset="0">
+    <cstring>objects</cstring>
+   </property>
+  </actiongroup>
+  <actiongroup name="filter">
+   <action name="actionFilterNewCutter">
+    <property name="icon">
+     <iconset resource="images.qrc">
+      <normaloff>:/icons/icons/cutter.png</normaloff>:/icons/icons/cutter.png</iconset>
+    </property>
+    <property name="iconText">
+     <string>cutter</string>
+    </property>
+    <property name="name" stdset="0">
+     <cstring>filterNewCutterAction</cstring>
+    </property>
+   </action>
+   <action name="actionFilterNewCell2Node">
+    <property name="icon">
+     <iconset resource="images.qrc">
+      <normaloff>:/icons/icons/cell2node.png</normaloff>:/icons/icons/cell2node.png</iconset>
+    </property>
+    <property name="iconText">
+     <string>cell-&gt;node data</string>
+    </property>
+    <property name="name" stdset="0">
+     <cstring>filterNewCell2NodeAction</cstring>
+    </property>
+   </action>
+   <action name="actionFilterNewCummulate">
+    <property name="icon">
+     <iconset resource="images.qrc">
+      <normaloff>:/icons/icons/cummulate.png</normaloff>:/icons/icons/cummulate.png</iconset>
+    </property>
+    <property name="iconText">
+     <string>concatenate inputs</string>
+    </property>
+    <property name="name" stdset="0">
+     <cstring>filterNewCummulateAction</cstring>
+    </property>
+   </action>
+   <action name="actionFilterNewGeometry">
+    <property name="icon">
+     <iconset resource="images.qrc">
+      <normaloff>:/icons/icons/geometry.png</normaloff>:/icons/icons/geometry.png</iconset>
+    </property>
+    <property name="iconText">
+     <string>surface</string>
+    </property>
+    <property name="name" stdset="0">
+     <cstring>filterNewGeometryAction</cstring>
+    </property>
+   </action>
+   <action name="actionFilterNewTubes">
+    <property name="icon">
+     <iconset resource="images.qrc">
+      <normaloff>:/icons/icons/tubes.png</normaloff>:/icons/icons/tubes.png</iconset>
+    </property>
+    <property name="iconText">
+     <string>tubes</string>
+    </property>
+    <property name="name" stdset="0">
+     <cstring>filterNewTubesAction</cstring>
+    </property>
+   </action>
+   <action name="actionFilterCreate">
+    <property name="iconText">
+     <string>create a new filter</string>
+    </property>
+    <property name="toolTip">
+     <string>Create a new filter</string>
+    </property>
+    <property name="name" stdset="0">
+     <cstring>filterCreateAction</cstring>
+    </property>
+   </action>
+   <action name="actionFilterNewClipper">
+    <property name="icon">
+     <iconset resource="images.qrc">
+      <normaloff>:/icons/icons/clipper.png</normaloff>:/icons/icons/clipper.png</iconset>
+    </property>
+    <property name="iconText">
+     <string>clipper</string>
+    </property>
+    <property name="name" stdset="0">
+     <cstring>filterNewClipperAction</cstring>
+    </property>
+   </action>
+   <action name="actionFilterNewContour">
+    <property name="enabled">
+     <bool>true</bool>
+    </property>
+    <property name="icon">
+     <iconset resource="images.qrc">
+      <normaloff>:/icons/icons/contour.png</normaloff>:/icons/icons/contour.png</iconset>
+    </property>
+    <property name="iconText">
+     <string>contour</string>
+    </property>
+    <property name="name" stdset="0">
+     <cstring>filterNewContourAction</cstring>
+    </property>
+   </action>
+   <action name="actionFilterNewAxisymmetry">
+    <property name="icon">
+     <iconset resource="images.qrc">
+      <normaloff>:/icons/icons/axisymmetry.png</normaloff>:/icons/icons/axisymmetry.png</iconset>
+    </property>
+    <property name="iconText">
+     <string>axisymmetry</string>
+    </property>
+    <property name="name" stdset="0">
+     <cstring>filterNewAxisymmetryAction</cstring>
+    </property>
+   </action>
+   <property name="name" stdset="0">
+    <cstring>filter</cstring>
+   </property>
+  </actiongroup>
+  <actiongroup name="function">
+   <action name="actionFunctionNewPlane">
+    <property name="icon">
+     <iconset resource="images.qrc">
+      <normaloff>:/icons/icons/plane.png</normaloff>:/icons/icons/plane.png</iconset>
+    </property>
+    <property name="iconText">
+     <string>plane</string>
+    </property>
+    <property name="name" stdset="0">
+     <cstring>functionNewPlaneAction</cstring>
+    </property>
+   </action>
+   <action name="actionFunctionNewSphere">
+    <property name="icon">
+     <iconset resource="images.qrc">
+      <normaloff>:/icons/icons/sphere.png</normaloff>:/icons/icons/sphere.png</iconset>
+    </property>
+    <property name="iconText">
+     <string>sphere</string>
+    </property>
+    <property name="name" stdset="0">
+     <cstring>functionNewSphereAction</cstring>
+    </property>
+   </action>
+   <property name="name" stdset="0">
+    <cstring>function</cstring>
+   </property>
+  </actiongroup>
+ </widget>
+ <layoutdefault spacing="6" margin="11"/>
+ <customwidgets>
+  <customwidget>
+   <class>QVTKWidget</class>
+   <extends>QWidget</extends>
+   <header>QVTKWidget.h</header>
+  </customwidget>
+ </customwidgets>
+ <resources>
+  <include location="images.qrc"/>
+ </resources>
+ <connections/>
+</ui>
