@@ -23,9 +23,7 @@
 
 #include "unstructuredgridreader.h"
 
-#include <QFileDialog>
-
-UnstructuredGridReader::UnstructuredGridReader(WorkSpace *ws) : GuiWsItem(ws)
+UnstructuredGridReader::UnstructuredGridReader(WorkSpace *ws) : Reader(ws)
 {
   loadIcon("unstructuredgridreader.png");
   m_Ws->addItem(this);
@@ -33,12 +31,10 @@ UnstructuredGridReader::UnstructuredGridReader(WorkSpace *ws) : GuiWsItem(ws)
   m_Vtk = vtkUnstructuredGridReader::New();
   m_Xml = vtkXMLUnstructuredGridReader::New();
   m_UseXml = false;
-  connect(m_Dlg.ui.apply_pb,  SIGNAL(clicked()), this, SLOT(apply()));
-  connect(m_Dlg.ui.help_pb,   SIGNAL(clicked()), this, SLOT(help()));
-  connect(m_Dlg.ui.browse_pb, SIGNAL(clicked()), this, SLOT(browse()));
   m_Dlg.ui.name_edit->setText(name());
   m_HasOutput = true;
   m_OutputTypes = "vtkDataSet";
+  m_Formats = "VTK files (*.vtk *.vtu)";
   apply();
 }
 
@@ -64,73 +60,11 @@ void UnstructuredGridReader::apply()
   m_Ws->render();
 }
 
-void UnstructuredGridReader::config()
-{
-  if (m_Dlg.exec()) {
-    apply();
-  }
-}
-
-void UnstructuredGridReader::save(QTextStream &s)
-{
-  GuiWsItem<Ui::UnstructuredGridReaderConfig>::save(s);
-  writeLineEdit(s, m_Dlg.ui.name_edit);
-  writeLabel(s,m_Dlg.ui.file_label);
-}
-
-void UnstructuredGridReader::load(QTextStream &s)
-{
-  GuiWsItem<Ui::UnstructuredGridReaderConfig>::load(s);
-  readLineEdit(s, m_Dlg.ui.name_edit);
-  readLabel(s,m_Dlg.ui.file_label);
-  apply();
-}
-
-void UnstructuredGridReader::browse()
-{
-  QString file_name = QFileDialog::getOpenFileName(NULL, "Choose a file to open", "./", "VTK files (*.vtk *.vtu)");
-  if (!file_name.isEmpty()) {
-    m_Dlg.ui.file_label->setText(file_name);
-  }
-}
-
 vtkDataSet* UnstructuredGridReader::getDataSet()
 {
   if (m_UseXml) {
     return m_Xml->GetOutput();
   }
   return m_Vtk->GetOutput();
-}
-
-void UnstructuredGridReader::setUnstructuredGrid(int i, vtkUnstructuredGrid *poly_data)
-{
-}
-
-void UnstructuredGridReader::setDataSet(int i, vtkDataSet *data_set)
-{
-}
-
-void UnstructuredGridReader::setImplicitFunction(int i, vtkImplicitFunction *function)
-{
-}
-
-void UnstructuredGridReader::connectInput(int i)
-{
-}
-
-void UnstructuredGridReader::disconnectInput(int i)
-{
-}
-
-void UnstructuredGridReader::connectOutput(int i)
-{
-}
-
-void UnstructuredGridReader::disconnectOutput(int i)
-{
-}
-
-void UnstructuredGridReader::help()
-{
 }
 

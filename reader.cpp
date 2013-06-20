@@ -21,39 +21,53 @@
 // ++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
 //
 
-#ifndef UnstructuredGridreader_H
-#define UnstructuredGridreader_H
-
-class UnstructuredGridReader;
-
 #include "reader.h"
 
-#include <vtkUnstructuredGridReader.h>
-#include <vtkXMLUnstructuredGridReader.h>
+#include <QFileDialog>
 
-class UnstructuredGridReader : public Reader
+Reader::Reader(WorkSpace *ws) : GuiWsItem(ws)
 {
+  connect(m_Dlg.ui.apply_pb,  SIGNAL(clicked()), this, SLOT(apply()));
+  connect(m_Dlg.ui.help_pb,   SIGNAL(clicked()), this, SLOT(help()));
+  connect(m_Dlg.ui.browse_pb, SIGNAL(clicked()), this, SLOT(browse()));
+  m_Formats = "";
+}
 
-  Q_OBJECT
+void Reader::config()
+{
+  if (m_Dlg.exec()) {
+    apply();
+  }
+}
 
-private:
+void Reader::save(QTextStream &s)
+{
+  GuiWsItem<Ui::UnstructuredGridReaderConfig>::save(s);
+  if (!m_Formats.isEmpty()) {
+    s << m_Formats.replace(' ', '~') << "\n";
+  } else {
+    s << "N/A\n";
+  }
+  writeLineEdit(s, m_Dlg.ui.name_edit);
+  writeLabel(s,m_Dlg.ui.file_label);
+}
 
-  bool                          m_UseXml;
-  vtkUnstructuredGridReader    *m_Vtk;
-  vtkXMLUnstructuredGridReader *m_Xml;
+void Reader::load(QTextStream &s)
+{
+  GuiWsItem<Ui::UnstructuredGridReaderConfig>::load(s);
+  s >> m_Formats;
+  m_Formats = m_Formats.replace('~', ' ');
+  readLineEdit(s, m_Dlg.ui.name_edit);
+  readLabel(s,m_Dlg.ui.file_label);
+  apply();
+}
 
-public:
+void Reader::browse()
+{
+  QString file_name = QFileDialog::getOpenFileName(NULL, "Choose a file to open", "./", "VTK files (*.vtk *.vtu)");
+  if (!file_name.isEmpty()) {
+    m_Dlg.ui.file_label->setText(file_name);
+  }
+}
 
-  UnstructuredGridReader (WorkSpace *ws);
-  ~UnstructuredGridReader();
 
-  virtual vtkDataSet* getDataSet();
-
-
-public slots:
-
-  virtual void apply ();
-
-};
-
-#endif

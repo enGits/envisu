@@ -21,39 +21,37 @@
 // ++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
 //
 
-#ifndef UnstructuredGridreader_H
-#define UnstructuredGridreader_H
+#ifndef READER_H
+#define READER_H
 
-class UnstructuredGridReader;
+#include "guiwsitem.h"
+#include "ui_readerconfig.h"
 
-#include "reader.h"
-
-#include <vtkUnstructuredGridReader.h>
-#include <vtkXMLUnstructuredGridReader.h>
-
-class UnstructuredGridReader : public Reader
+class Reader : public GuiWsItem<Ui::UnstructuredGridReaderConfig>
 {
 
   Q_OBJECT
 
-private:
+protected:
 
-  bool                          m_UseXml;
-  vtkUnstructuredGridReader    *m_Vtk;
-  vtkXMLUnstructuredGridReader *m_Xml;
+  QString m_Formats;
+
 
 public:
 
-  UnstructuredGridReader (WorkSpace *ws);
-  ~UnstructuredGridReader();
-
-  virtual vtkDataSet* getDataSet();
+  Reader (WorkSpace *ws);
 
 
 public slots:
 
-  virtual void apply ();
+  virtual void config();
+  virtual void load  (QTextStream &s);
+  virtual void save  (QTextStream &s);
+  virtual void browse();
+  virtual void apply () = 0;
+
+
 
 };
 
-#endif
+#endif // READER_H

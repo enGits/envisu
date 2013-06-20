@@ -64,7 +64,8 @@ HEADERS	+= \
     wsitem.h \
     inputdialog.h \
     newfilterdialog.h \
-    envisu.h
+    envisu.h \
+    reader.h
 
 SOURCES	+= main.cpp \
     cylinder.cpp \
@@ -87,7 +88,8 @@ SOURCES	+= main.cpp \
     vtkdisplay.cpp \
     inputdialog.cpp \
     wsitem.cpp \
-    newfilterdialog.cpp
+    newfilterdialog.cpp \
+    reader.cpp
 
 #The following line was changed from FORMS to FORMS3 by qt3to4
 FORMS	= \
@@ -96,7 +98,6 @@ FORMS	= \
     clipperconfig.ui \
     contourconfig.ui \
     cylconfigdialog.ui \
-    displayconfig.ui \
     inputdialog.ui \
     inputeditdialog.ui \
     mainwindow.ui \
@@ -105,8 +106,9 @@ FORMS	= \
     polydatareaderconfig.ui \
     sphereconfig.ui \
     tubesconfig.ui \
-    unstructuredgridreaderconfig.ui \
-    wsitemconfig.ui
+    wsitemconfig.ui \
+    vtkdisplayconfig.ui \
+    readerconfig.ui
 
 RESOURCES += \
     images.qrc

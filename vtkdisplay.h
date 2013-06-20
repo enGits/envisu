@@ -27,7 +27,7 @@
 class VtkDisplay;
 
 #include "guiwsitem.h"
-#include "ui_displayconfig.h"
+#include "ui_vtkdisplayconfig.h"
 
 #include <vtkPolyDataMapper.h>
 #include <vtkLODActor.h>
