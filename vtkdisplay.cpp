@@ -135,17 +135,6 @@ void VtkDisplay::apply()
                                    m_Dlg.ui.lineEditGreen->text().toFloat());
   m_Actor->GetProperty()->SetOpacity(m_Dlg.ui.lineEditAlpha->text().toFloat());
 
-  m_Mapper->ScalarVisibilityOff();
-  m_Mapper->SetScalarRange(m_Dlg.ui.lineEditRangeMin->text().toFloat(), m_Dlg.ui.lineEditRangeMax->text().toFloat());
-  if (m_Dlg.ui.checkBoxScalars->isChecked() && m_Data) {
-    m_Mapper->ScalarVisibilityOn();
-    if (m_Dlg.ui.radioButtonCells->isChecked()) {
-      m_Mapper->SetScalarModeToUseCellFieldData();
-    } else {
-      m_Mapper->SetScalarModeToUsePointFieldData();
-    }
-    m_Mapper->SelectColorArray(qPrintable(m_Dlg.ui.comboBoxScalar->currentText()));
-  }
   if (m_LegendActor) {
     m_Ws->getRenderer()->RemoveActor(m_LegendActor);
     m_LegendActor->Delete();
@@ -182,6 +171,7 @@ void VtkDisplay::apply()
     }
     m_Ws->getRenderer()->AddActor(m_LegendActor);
   }
+  update();
   m_Ws->render();
 }
 
@@ -208,7 +198,6 @@ void VtkDisplay::load(QTextStream &s)
   readComboBox   (s, m_Dlg.ui.comboBoxPosition);
   readComboBox   (s, m_Dlg.ui.comboBoxScalar);
   readSpinBox    (s ,m_Dlg.ui.spinBoxLevels);
-  apply();
   apply();
 }
 
@@ -240,7 +229,19 @@ void VtkDisplay::save(QTextStream &s)
 
 void VtkDisplay::update()
 {
+  m_Mapper->ScalarVisibilityOff();
+  m_Mapper->SetScalarRange(m_Dlg.ui.lineEditRangeMin->text().toFloat(), m_Dlg.ui.lineEditRangeMax->text().toFloat());
   if (m_Data) {
+    if (m_Dlg.ui.checkBoxScalars->isChecked()) {
+      QString scalar_name = m_Dlg.ui.comboBoxScalar->currentText();
+      m_Mapper->ScalarVisibilityOn();
+      if (m_Dlg.ui.radioButtonCells->isChecked()) {
+        m_Mapper->SetScalarModeToUseCellFieldData();
+      } else {
+        m_Mapper->SetScalarModeToUsePointFieldData();
+      }
+      m_Mapper->SelectColorArray(qPrintable(m_Dlg.ui.comboBoxScalar->currentText()));
+    }
     m_Mapper->SelectColorArray(qPrintable(m_Dlg.ui.comboBoxScalar->currentText()));
     if (m_Data->GetNumberOfPolys() || m_Data->GetNumberOfStrips()) {
       m_Normals->SetInput(m_Data);

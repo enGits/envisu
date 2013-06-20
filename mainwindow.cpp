@@ -118,6 +118,9 @@ void MainWindow::vtkFloatStateChanged(bool floating)
 
 void MainWindow::fileNew()
 {
+  for (list<WsItem*>::iterator i = m_WorkSpace->getItems()->begin(); i != m_WorkSpace->getItems()->end(); ++i) {
+    m_WorkSpace->delItem(*i);
+  }
 }
 
 QString MainWindow::version()
@@ -129,8 +132,10 @@ void MainWindow::fileOpen()
 {
   m_FileName = QFileDialog::getOpenFileName(this, "Choose a file to open", "./", "enVisu files (*.envisu)");
   if (!m_FileName.isEmpty()) {
+    fileNew();
     m_WorkSpace->load(m_FileName);
     setCaption(version() + ": " + m_FileName);
+    m_WorkSpace->zoomAll();
   }
 }
 
