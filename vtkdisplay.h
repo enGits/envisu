@@ -40,19 +40,25 @@ class VtkDisplay : public GuiWsItem<Ui::DisplayConfig>
     
   Q_OBJECT
 
-  vtkLODActor        *actor;
-  vtkScalarBarActor  *legend_actor;
-  vtkPolyData        *data;
-  vtkPolyDataMapper  *mapper;
-  vtkPolyDataNormals *normals;
-  vtkLookupTable     *lookup_table;
+  vtkLODActor        *m_Actor;
+  vtkScalarBarActor  *m_LegendActor;
+  vtkPolyData        *m_Data;
+  vtkPolyDataMapper  *m_Mapper;
+  vtkPolyDataNormals *m_Normals;
+  vtkLookupTable     *m_LookupTable;
+
+
+private slots:
+
+  void scalarsToggled(bool scalars_on);
+  void updateScalars();
 
 public:
 
   VtkDisplay(WorkSpace *ws);
   ~VtkDisplay();
   virtual void setPolyData(int i, vtkPolyData *poly_data);
-  virtual void disconnectInput  (int i) { data = NULL; }
+  virtual void disconnectInput  (int i) { m_Data = NULL; }
 
 public slots:
 
