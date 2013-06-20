@@ -67,14 +67,37 @@ VtkDisplay::~VtkDisplay()
 void VtkDisplay::autoScale()
 {
   m_Mapper->Update();
-  double range[2];
-  m_Mapper->GetScalarRange(range);
+  double min_value = 0;
+  double max_value = 1;
   QString scalar_name = m_Mapper->GetArrayName();
-  QString min,max;
-  min.setNum(range[0]);
-  max.setNum(range[1]);
-  m_Dlg.ui.lineEditRangeMin->setText(min);
-  m_Dlg.ui.lineEditRangeMax->setText(max);
+
+  vtkDataSetAttributes* dataset_attributes;
+  if (m_Dlg.ui.radioButtonCells->isChecked()) {
+    dataset_attributes = m_Mapper->GetInput()->GetCellData();
+  } else {
+    dataset_attributes = m_Mapper->GetInput()->GetPointData();
+  }
+  if (dataset_attributes) {
+    vtkDataArray* data_array = dataset_attributes->GetArray(qPrintable(scalar_name));
+    if (data_array) {
+      for (vtkIdType i = 0; i < data_array->GetNumberOfTuples(); ++i) {
+        double value = 0;
+        for (int j = 0; j < data_array->GetNumberOfComponents(); ++j) {
+          double component = data_array->GetComponent(i, j);
+          value += component*component;
+        }
+        value = sqrt(value);
+        min_value = min(value, min_value);
+        max_value = max(value, max_value);
+      }
+    }
+  }
+
+  QString min_txt, max_txt;
+  min_txt.setNum(min_value);
+  max_txt.setNum(max_value);
+  m_Dlg.ui.lineEditRangeMin->setText(min_txt);
+  m_Dlg.ui.lineEditRangeMax->setText(max_txt);
 }
 
 void VtkDisplay::config()
@@ -122,7 +145,6 @@ void VtkDisplay::apply()
       m_Mapper->SetScalarModeToUsePointFieldData();
     }
     m_Mapper->SelectColorArray(qPrintable(m_Dlg.ui.comboBoxScalar->currentText()));
-    cout << m_Mapper->GetArrayName() << endl;
   }
   if (m_LegendActor) {
     m_Ws->getRenderer()->RemoveActor(m_LegendActor);
@@ -187,6 +209,7 @@ void VtkDisplay::load(QTextStream &s)
   readComboBox   (s, m_Dlg.ui.comboBoxScalar);
   readSpinBox    (s ,m_Dlg.ui.spinBoxLevels);
   apply();
+  apply();
 }
 
 void VtkDisplay::save(QTextStream &s)
@@ -218,6 +241,7 @@ void VtkDisplay::save(QTextStream &s)
 void VtkDisplay::update()
 {
   if (m_Data) {
+    m_Mapper->SelectColorArray(qPrintable(m_Dlg.ui.comboBoxScalar->currentText()));
     if (m_Data->GetNumberOfPolys() || m_Data->GetNumberOfStrips()) {
       m_Normals->SetInput(m_Data);
       m_Normals->Update();
