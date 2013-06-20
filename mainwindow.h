@@ -78,10 +78,40 @@ public slots:
   void filePrint();
   void fileExit();
 
-  void gridNewPolyDataReader()           { new PolyDataReader(m_WorkSpace); }
-  void gridNewUnstructuredGridReader()   { new UnstructuredGridReader(m_WorkSpace); }
-  void displayNewDisplay()               { new VtkDisplay(m_WorkSpace); }
-  void displayNewAsciiPointsFile()       { new AsciiPointsFile(m_WorkSpace); }
+  void render() { m_WorkSpace->render(); }
+
+  void filterCreate();
+
+  void pipelineFloatStateChanged(bool floating);
+  void vtkFloatStateChanged(bool floating);
+
+  // filter slots
+
+  void gridNewPolyDataReader()
+  {
+    new PolyDataReader(m_WorkSpace);
+  }
+
+  void gridNewUnstructuredGridReader()
+  {
+    new UnstructuredGridReader(m_WorkSpace);
+  }
+
+  void gridNewMultiBlockReader()
+  {
+    new MultiBlockReader(m_WorkSpace);
+  }
+
+  void displayNewDisplay()
+  {
+    new VtkDisplay(m_WorkSpace);
+  }
+
+  void displayNewAsciiPointsFile()
+  {
+    new AsciiPointsFile(m_WorkSpace);
+  }
+
   void objectsNewCylinder()              { new Cylinder(m_WorkSpace); }
   void filterNewCutter()                 { new Cutter(m_WorkSpace); }
   void filterNewClipper()                { new Clipper(m_WorkSpace); }
@@ -93,14 +123,6 @@ public slots:
   void filterNewAxisymmetry()            { new Axisymmetry(m_WorkSpace); }
   void functionNewPlane()                { new Plane(m_WorkSpace); }
   void functionNewSphere()               { new Sphere(m_WorkSpace); }
-
-  void render() { m_WorkSpace->render(); }
-
-  void filterCreate();
-
-  void pipelineFloatStateChanged(bool floating);
-  void vtkFloatStateChanged(bool floating);
-
   
 };
 

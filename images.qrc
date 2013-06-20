@@ -49,5 +49,6 @@
         <file>kde_icons/document-save.png</file>
         <file>gnome_icons/window_fullscreen.png</file>
         <file>gnome_icons/window_nofullscreen.png</file>
+        <file>icons/multiblockreader.png</file>
     </qresource>
 </RCC>

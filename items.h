@@ -11,5 +11,6 @@
 #include "asciipointsfile.h"
 #include "polydatareader.h"
 #include "unstructuredgridreader.h"
+#include "multiblockreader.h"
 #include "contour.h"
 #include "axisymmetry.h"

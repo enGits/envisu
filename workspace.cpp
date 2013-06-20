@@ -456,6 +456,7 @@ void WorkSpace::save(QString file_name)
       else if (dynamic_cast<AsciiPointsFile*>(*i))        f << "AsciiPointsFile\n";
       else if (dynamic_cast<PolyDataReader*>(*i))         f << "PolyDataReader\n";
       else if (dynamic_cast<UnstructuredGridReader*>(*i)) f << "UnstructuredGridReader\n";
+      else if (dynamic_cast<MultiBlockReader*>(*i))       f << "MultiBlockReader\n";
       else if (dynamic_cast<Contour*>(*i))                f << "Contour\n";
       else if (dynamic_cast<Cylinder*>(*i))               f << "Cylinder\n";
       //else if (dynamic_cast<*>(*i))      f << "\n";
@@ -506,6 +507,7 @@ void WorkSpace::load(QString file_name)
     else if (type == "AsciiPointsFile")        load_items[i] = new AsciiPointsFile(this);
     else if (type == "PolyDataReader")         load_items[i] = new PolyDataReader(this);
     else if (type == "UnstructuredGridReader") load_items[i] = new UnstructuredGridReader(this);
+    else if (type == "MultiBlockReader")       load_items[i] = new MultiBlockReader(this);
     else if (type == "Contour")                load_items[i] = new Contour(this);
     else if (type == "Cylinder")               load_items[i] = new Cylinder(this);
     //else if (type == "Mp")      load_items[i] = new Mp(this);

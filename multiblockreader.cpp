@@ -21,53 +21,48 @@
 // ++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
 //
 
-#include "reader.h"
+#include "multiblockreader.h"
 
-#include <QFileDialog>
+#include <vtkCompositeDataIterator.h>
 
-Reader::Reader(WorkSpace *ws) : GuiWsItem(ws)
+MultiBlockReader::MultiBlockReader(WorkSpace *ws) : Reader(ws)
 {
-  connect(m_Dlg.ui.apply_pb,  SIGNAL(clicked()), this, SLOT(apply()));
-  connect(m_Dlg.ui.help_pb,   SIGNAL(clicked()), this, SLOT(help()));
-  connect(m_Dlg.ui.browse_pb, SIGNAL(clicked()), this, SLOT(browse()));
-  m_Formats = "";
-}
-
-void Reader::config()
-{
-  if (m_Dlg.exec()) {
-    apply();
-  }
-}
-
-void Reader::save(QTextStream &s)
-{
-  GuiWsItem<Ui::UnstructuredGridReaderConfig>::save(s);
-  if (!m_Formats.isEmpty()) {
-    s << m_Formats.replace(' ', '~') << "\n";
-  } else {
-    s << "N/A\n";
-  }
-  writeLineEdit(s, m_Dlg.ui.name_edit);
-  writeLabel(s,m_Dlg.ui.file_label);
-}
-
-void Reader::load(QTextStream &s)
-{
-  GuiWsItem<Ui::UnstructuredGridReaderConfig>::load(s);
-  s >> m_Formats;
-  m_Formats = m_Formats.replace('~', ' ');
-  readLineEdit(s, m_Dlg.ui.name_edit);
-  readLabel(s,m_Dlg.ui.file_label);
+  loadIcon("multiblockreader.png");
+  m_Ws->addItem(this);
+  setName("MultiBlockGridReader");
+  m_Vtm = vtkXMLMultiBlockDataReader::New();
+  m_Append = vtkAppendFilter::New();
+  m_Dlg.ui.name_edit->setText(name());
+  m_HasOutput = true;
+  m_OutputTypes = "vtkDataSet";
+  m_Formats = "VTK multi-block files (*.vtm)";
   apply();
 }
 
-void Reader::browse()
+MultiBlockReader::~MultiBlockReader()
 {
-  QString file_name = QFileDialog::getOpenFileName(NULL, "Choose a file to open", "./", qPrintable(m_Formats));
-  if (!file_name.isEmpty()) {
-    m_Dlg.ui.file_label->setText(file_name);
-  }
+  m_Append->Delete();
+  m_Vtm->Delete();
 }
 
+void MultiBlockReader::apply()
+{
+  m_Append->RemoveAllInputs();
+  changeName(m_Dlg.ui.name_edit->text());
+  QString file_name = m_Dlg.ui.file_label->text();
+  m_Vtm->SetFileName(qPrintable(file_name));
+  m_Vtm->Update();
+  vtkCompositeDataIterator *iter = m_Vtm->GetOutput()->NewIterator();
+  iter->GoToFirstItem();
+  iter->VisitOnlyLeavesOn();
+  while (!iter->IsDoneWithTraversal()) {
+    m_Append->AddInput(iter->GetCurrentDataObject());
+    iter->GoToNextItem();
+  }
+  m_Ws->render();
+}
 
+vtkDataSet *MultiBlockReader::getDataSet()
+{
+  return m_Append->GetOutput();
+}

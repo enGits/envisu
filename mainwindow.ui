@@ -87,6 +87,7 @@
     </property>
     <addaction name="actionGridNewPolyDataReader"/>
     <addaction name="actionGridNewUnstructuredGridReader"/>
+    <addaction name="actionGridNewMultiBlockReader"/>
     <addaction name="actionObjectNewCylinder"/>
    </widget>
    <widget class="QMenu" name="menuConsumers">
@@ -478,6 +479,15 @@
    </property>
    <property name="text">
     <string>view from the bottom</string>
+   </property>
+  </action>
+  <action name="actionGridNewMultiBlockReader">
+   <property name="icon">
+    <iconset resource="images.qrc">
+     <normaloff>:/icons/icons/multiblockreader.png</normaloff>:/icons/icons/multiblockreader.png</iconset>
+   </property>
+   <property name="text">
+    <string>VTK multi block reader</string>
    </property>
   </action>
   <actiongroup name="grid">

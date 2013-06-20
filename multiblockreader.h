@@ -21,53 +21,36 @@
 // ++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
 //
 
+#ifndef MULTIBLOCKREADER_H
+#define MULTIBLOCKREADER_H
+
 #include "reader.h"
 
-#include <QFileDialog>
+#include <vtkXMLMultiBlockDataReader.h>
+#include <vtkCompositeDataSet.h>
+#include <vtkAppendFilter.h>
 
-Reader::Reader(WorkSpace *ws) : GuiWsItem(ws)
+class MultiBlockReader : public Reader
 {
-  connect(m_Dlg.ui.apply_pb,  SIGNAL(clicked()), this, SLOT(apply()));
-  connect(m_Dlg.ui.help_pb,   SIGNAL(clicked()), this, SLOT(help()));
-  connect(m_Dlg.ui.browse_pb, SIGNAL(clicked()), this, SLOT(browse()));
-  m_Formats = "";
-}
 
-void Reader::config()
-{
-  if (m_Dlg.exec()) {
-    apply();
-  }
-}
+  Q_OBJECT
 
-void Reader::save(QTextStream &s)
-{
-  GuiWsItem<Ui::UnstructuredGridReaderConfig>::save(s);
-  if (!m_Formats.isEmpty()) {
-    s << m_Formats.replace(' ', '~') << "\n";
-  } else {
-    s << "N/A\n";
-  }
-  writeLineEdit(s, m_Dlg.ui.name_edit);
-  writeLabel(s,m_Dlg.ui.file_label);
-}
+private:
 
-void Reader::load(QTextStream &s)
-{
-  GuiWsItem<Ui::UnstructuredGridReaderConfig>::load(s);
-  s >> m_Formats;
-  m_Formats = m_Formats.replace('~', ' ');
-  readLineEdit(s, m_Dlg.ui.name_edit);
-  readLabel(s,m_Dlg.ui.file_label);
-  apply();
-}
+  vtkXMLMultiBlockDataReader *m_Vtm;
+  vtkAppendFilter            *m_Append;
 
-void Reader::browse()
-{
-  QString file_name = QFileDialog::getOpenFileName(NULL, "Choose a file to open", "./", qPrintable(m_Formats));
-  if (!file_name.isEmpty()) {
-    m_Dlg.ui.file_label->setText(file_name);
-  }
-}
+public:
+
+  MultiBlockReader(WorkSpace* ws);
+  ~MultiBlockReader();
+
+  virtual vtkDataSet* getDataSet();
 
 
+public slots:
+
+  virtual void apply ();
+};
+
+#endif // MULTIBLOCKREADER_H

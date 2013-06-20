@@ -65,7 +65,9 @@ HEADERS	+= \
     inputdialog.h \
     newfilterdialog.h \
     envisu.h \
-    reader.h
+    reader.h \
+    multiblockreader.h \
+    connections.h
 
 SOURCES	+= main.cpp \
     cylinder.cpp \
@@ -89,9 +91,9 @@ SOURCES	+= main.cpp \
     inputdialog.cpp \
     wsitem.cpp \
     newfilterdialog.cpp \
-    reader.cpp
+    reader.cpp \
+    multiblockreader.cpp
 
-#The following line was changed from FORMS to FORMS3 by qt3to4
 FORMS	= \
     asciipointsfileconfig.ui \
     axisymmetryconfig.ui \
