@@ -68,6 +68,7 @@ public slots:
   virtual void load(QTextStream &s);
   virtual void save(QTextStream &s);
   virtual void update();
+  virtual void selectColour();
 
 };
 

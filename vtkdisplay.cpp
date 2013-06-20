@@ -28,8 +28,7 @@
 #include <vtkPointData.h>
 #include <vtkCellData.h>
 
-#include <vtkXMLPolyDataWriter.h>
-#include <vtkSmartPointer.h>
+#include <QColorDialog>
 
 VtkDisplay::VtkDisplay(WorkSpace *ws) : GuiWsItem<Ui::DisplayConfig>(ws)
 {
@@ -54,6 +53,7 @@ VtkDisplay::VtkDisplay(WorkSpace *ws) : GuiWsItem<Ui::DisplayConfig>(ws)
   connect(m_Dlg.ui.pushButtonAutoScale, SIGNAL(clicked()),     this, SLOT(autoScale()));
   connect(m_Dlg.ui.checkBoxScalars,     SIGNAL(toggled(bool)), this, SLOT(scalarsToggled(bool)));
   connect(m_Dlg.ui.radioButtonNodes,    SIGNAL(toggled(bool)), this, SLOT(updateScalars()));
+  connect(m_Dlg.ui.pushButtonColour,    SIGNAL(clicked()),     this, SLOT(selectColour()));
   m_Dlg.ui.lineEditName->setText(name());
   apply();
 }
@@ -66,6 +66,7 @@ VtkDisplay::~VtkDisplay()
 
 void VtkDisplay::autoScale()
 {
+  m_Mapper->SelectColorArray(qPrintable(m_Dlg.ui.comboBoxScalar->currentText()));
   m_Mapper->Update();
   double min_value = 0;
   double max_value = 1;
@@ -135,42 +136,6 @@ void VtkDisplay::apply()
                                    m_Dlg.ui.lineEditGreen->text().toFloat());
   m_Actor->GetProperty()->SetOpacity(m_Dlg.ui.lineEditAlpha->text().toFloat());
 
-  if (m_LegendActor) {
-    m_Ws->getRenderer()->RemoveActor(m_LegendActor);
-    m_LegendActor->Delete();
-    m_LegendActor = NULL;
-  }
-  if (m_Dlg.ui.checkBoxLegend->isChecked()) {
-    if (m_Data && m_Dlg.ui.checkBoxScalars->isChecked()) {
-      m_LegendActor = vtkScalarBarActor::New();
-      m_LegendActor->SetLookupTable(m_LookupTable);
-      m_LegendActor->SetNumberOfLabels(m_Dlg.ui.spinBoxLevels->value());
-      m_LegendActor->SetMaximumNumberOfColors(m_Dlg.ui.spinBoxLevels->value()-1);
-      if (m_Dlg.ui.comboBoxPosition->currentText() == "left") {
-        m_LegendActor->SetPosition(0.02,0.1);
-        m_LegendActor->SetWidth(0.1);
-        m_LegendActor->SetHeight(0.9);
-        m_LegendActor->SetOrientationToVertical();
-      } else if (m_Dlg.ui.comboBoxPosition->currentText() == "top") {
-        m_LegendActor->SetOrientationToHorizontal();
-        m_LegendActor->SetPosition(0.10,0.88);
-        m_LegendActor->SetWidth(0.8);
-        m_LegendActor->SetHeight(0.1);
-      } else if (m_Dlg.ui.comboBoxPosition->currentText() == "right") {
-        m_LegendActor->SetPosition(0.88,0.10);
-        m_LegendActor->SetWidth(0.1);
-        m_LegendActor->SetHeight(0.8);
-        m_LegendActor->SetOrientationToVertical();
-      } else if (m_Dlg.ui.comboBoxPosition->currentText() == "bottom") {
-        m_LegendActor->SetPosition(0.10,0.02);
-        m_LegendActor->SetWidth(0.8);
-        m_LegendActor->SetHeight(0.1);
-        m_LegendActor->SetOrientationToHorizontal();
-      }
-      m_LegendActor->SetTitle(m_Mapper->GetArrayName());
-    }
-    m_Ws->getRenderer()->AddActor(m_LegendActor);
-  }
   update();
   m_Ws->render();
 }
@@ -233,7 +198,6 @@ void VtkDisplay::update()
   m_Mapper->SetScalarRange(m_Dlg.ui.lineEditRangeMin->text().toFloat(), m_Dlg.ui.lineEditRangeMax->text().toFloat());
   if (m_Data) {
     if (m_Dlg.ui.checkBoxScalars->isChecked()) {
-      QString scalar_name = m_Dlg.ui.comboBoxScalar->currentText();
       m_Mapper->ScalarVisibilityOn();
       if (m_Dlg.ui.radioButtonCells->isChecked()) {
         m_Mapper->SetScalarModeToUseCellFieldData();
@@ -253,6 +217,42 @@ void VtkDisplay::update()
     if (m_Dlg.ui.checkBoxAutoScale->isChecked()) {
       autoScale();
       m_Mapper->SetScalarRange(m_Dlg.ui.lineEditRangeMin->text().toFloat(), m_Dlg.ui.lineEditRangeMax->text().toFloat());
+    }
+    if (m_LegendActor) {
+      m_Ws->getRenderer()->RemoveActor(m_LegendActor);
+      m_LegendActor->Delete();
+      m_LegendActor = NULL;
+    }
+    if (m_Dlg.ui.checkBoxLegend->isChecked()) {
+      if (m_Data && m_Dlg.ui.checkBoxScalars->isChecked()) {
+        m_LegendActor = vtkScalarBarActor::New();
+        m_LegendActor->SetLookupTable(m_LookupTable);
+        m_LegendActor->SetNumberOfLabels(m_Dlg.ui.spinBoxLevels->value());
+        m_LegendActor->SetMaximumNumberOfColors(m_Dlg.ui.spinBoxLevels->value()-1);
+        if (m_Dlg.ui.comboBoxPosition->currentText() == "left") {
+          m_LegendActor->SetPosition(0.02,0.1);
+          m_LegendActor->SetWidth(0.1);
+          m_LegendActor->SetHeight(0.9);
+          m_LegendActor->SetOrientationToVertical();
+        } else if (m_Dlg.ui.comboBoxPosition->currentText() == "top") {
+          m_LegendActor->SetOrientationToHorizontal();
+          m_LegendActor->SetPosition(0.10,0.88);
+          m_LegendActor->SetWidth(0.8);
+          m_LegendActor->SetHeight(0.1);
+        } else if (m_Dlg.ui.comboBoxPosition->currentText() == "right") {
+          m_LegendActor->SetPosition(0.88,0.10);
+          m_LegendActor->SetWidth(0.1);
+          m_LegendActor->SetHeight(0.8);
+          m_LegendActor->SetOrientationToVertical();
+        } else if (m_Dlg.ui.comboBoxPosition->currentText() == "bottom") {
+          m_LegendActor->SetPosition(0.10,0.02);
+          m_LegendActor->SetWidth(0.8);
+          m_LegendActor->SetHeight(0.1);
+          m_LegendActor->SetOrientationToHorizontal();
+        }
+        m_LegendActor->SetTitle(m_Mapper->GetArrayName());
+      }
+      m_Ws->getRenderer()->AddActor(m_LegendActor);
     }
     if (m_LegendActor) {
       m_LegendActor->SetTitle(m_Mapper->GetArrayName());
@@ -295,4 +295,21 @@ void VtkDisplay::updateScalars()
     }
   }
 }
+
+void VtkDisplay::selectColour()
+{
+  int r = int(255*m_Dlg.ui.lineEditRed->text().toDouble());
+  int g = int(255*m_Dlg.ui.lineEditGreen->text().toDouble());
+  int b = int(255*m_Dlg.ui.lineEditBlue->text().toDouble());
+  QColor colour(r,g,b);
+  colour = QColorDialog::getColor(colour);
+  QString txt;
+  txt.setNum(double(colour.red())/255);
+  m_Dlg.ui.lineEditRed->setText(txt);
+  txt.setNum(double(colour.green())/255);
+  m_Dlg.ui.lineEditGreen->setText(txt);
+  txt.setNum(double(colour.blue())/255);
+  m_Dlg.ui.lineEditBlue->setText(txt);
+}
+
 
